@@ -1,367 +1,195 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Phone,
-  ArrowRight,
-  ArrowUpRight,
-  Check,
-  Disc3,
-  Gauge,
-  Wrench,
-  Car,
-  Clock,
-  MapPin,
-  ShieldCheck,
-  Cog,
-} from "lucide-react";
+import { Phone, ArrowUpRight, ArrowRight, Check, MapPin, Clock, Calendar } from "lucide-react";
 
 const PHONE_DISPLAY = "450-653-2224";
 const PHONE_TEL = "4506532224";
 const ADDRESS = "1450 Rue de Montarville, Saint-Bruno-de-Montarville, QC J3V 3T5";
 
-function ImageWithFade({
-  src,
-  alt,
-  className,
-  eager = false,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  eager?: boolean;
-}) {
-  const [loaded, setLoaded] = useState(false);
-  return (
-    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,#181c26,#0f1117)" }}>
-      <img
-        src={src}
-        alt={alt}
-        className={className}
-        onLoad={() => setLoaded(true)}
-        loading={eager ? "eager" : "lazy"}
-        // @ts-ignore
-        fetchpriority={eager ? "high" : undefined}
-        style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.7s ease" }}
-      />
-    </div>
-  );
-}
+const U = (id: string, w = 1600) =>
+  `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;
+
+const IMG = {
+  hero: "photo-1676018366904-c083ed678e60",
+  whyMain: "photo-1711386689622-1cda23e10217",
+  whySub: "photo-1631720040176-0d789a643a78",
+  cta: "photo-1619642751034-765dfdf7c58e",
+};
+
+const SERVICES = [
+  { n: "01", t: "Pneus & installation", d: "Vente, pose, balancement et entreposage de pneus toutes saisons et d'hiver.", img: "photo-1599256872237-5dcc0fbe9668" },
+  { n: "02", t: "Alignement des roues", d: "Géométrie de précision pour une tenue de route sûre et une usure égale des pneus.", img: "photo-1613214150132-9606e332d68e" },
+  { n: "03", t: "Freins", d: "Inspection, plaquettes, disques et étriers — un freinage net en toutes saisons.", img: "photo-1637640125496-31852f042a60" },
+  { n: "04", t: "Suspension & direction", d: "Amortisseurs, rotules et composants de direction pour un roulement stable.", img: "photo-1618783129985-dd97dbe4ad99" },
+  { n: "05", t: "Silencieux & échappement", d: "Réparation et remplacement du système d'échappement et des silencieux.", img: "photo-1613214150333-53afb7561e6d" },
+  { n: "06", t: "Vidange & injection", d: "Vidange d'huile, service d'injection et entretien préventif complet.", img: "photo-1619505372149-07875c35b313" },
+];
 
 export default function App() {
-  const glowRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-    const onMove = (e: MouseEvent) => {
-      if (glowRef.current) {
-        glowRef.current.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
-      }
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
-
   return (
-    <div className="site-wrapper">
-      <div
-        ref={glowRef}
-        aria-hidden
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: 500,
-          height: 500,
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(230,57,70,0.18), transparent 60%)",
-          filter: "blur(100px)",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
-
-      {/* NAVBAR */}
-      <nav className="navbar">
-        <div className="nav-inner">
-          <a href="#top" className="nav-logo">
-            <span className="logo-main">Pneus &amp; Services</span>
-            <span className="logo-accent">Grisé</span>
+    <div className="site">
+      {/* NAV */}
+      <nav className="nav">
+        <div className="wrap nav-in">
+          <a href="#top" className="logo">
+            Grisé<small>Pneus &amp; Services</small>
           </a>
           <ul className="nav-links">
-            <li><a className="nav-link" href="#services">Services</a></li>
-            <li><a className="nav-link" href="#apropos">À propos</a></li>
-            <li><a className="nav-link" href="#contact">Contact</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#apropos">Atelier</a></li>
+            <li><a href="#rdv">Rendez-vous</a></li>
+            <li><a href="#contact">Contact</a></li>
           </ul>
-          <a className="btn-nav-cta" href={`tel:${PHONE_TEL}`}>
-            <Phone size={15} /> {PHONE_DISPLAY}
-          </a>
-          <button className="nav-hamburger" aria-label="Menu">
-            <span /><span /><span />
-          </button>
+          <a className="nav-phone" href={`tel:${PHONE_TEL}`}><Phone size={18} /> {PHONE_DISPLAY}</a>
+          <button className="nav-burger" aria-label="Menu"><span /><span /><span /></button>
         </div>
       </nav>
 
       {/* HERO */}
       <header className="hero" id="top">
         <div className="hero-bg">
-          <ImageWithFade src="/images/hero.webp" alt="Atelier de mécanique générale" className="hero-img" eager />
-          <div className="hero-overlay" />
+          <img src={U(IMG.hero, 2000)} alt="Atelier de mécanique" loading="eager" fetchPriority="high" />
         </div>
-        <div className="hero-content">
-          <span className="hero-badge"><Wrench size={13} /> Garage de mécanique générale · St-Bruno</span>
-          <h1 className="hero-title">
-            Votre voiture entre
-            <span className="hero-br" />
-            de <span className="hero-title-accent">bonnes mains</span>
+        <div className="hero-grid-line" />
+        <div className="wrap hero-content">
+          <span className="kicker hero-kicker">Garage de mécanique générale · St-Bruno</span>
+          <h1 className="display hero-title">
+            Votre véhicule,<br />notre <span className="accent">expertise</span>
           </h1>
           <p className="hero-sub">
-            Vente et installation de pneus, freins, alignement, suspension et mécanique
-            générale. Un service honnête et fiable, exécuté par des mécaniciens d&apos;expérience.
+            Pneus, freins, alignement, suspension et mécanique générale.
+            Un service honnête et fiable, exécuté par des mécaniciens d'expérience.
           </p>
-          <a className="hero-phone" href={`tel:${PHONE_TEL}`}>
-            <Phone size={26} /> {PHONE_DISPLAY}
-          </a>
           <div className="hero-actions">
-            <a className="btn-primary" href="#contact">Prendre rendez-vous</a>
-            <a className="btn-ghost" href="#services">Nos services <ArrowRight size={16} /></a>
+            <a className="btn btn-red" href="#rdv"><Calendar size={16} /> Prendre rendez-vous</a>
+            <a className="btn btn-ghost" href="#services">Nos services <ArrowRight size={16} /></a>
+          </div>
+          <div className="hero-stats">
+            <div className="hstat"><div className="hstat-n">6<span className="accent">/7</span></div><div className="hstat-l">Jours ouverts</div></div>
+            <div className="hstat"><div className="hstat-n">7<span className="accent">+</span></div><div className="hstat-l">Services spécialisés</div></div>
+            <div className="hstat"><div className="hstat-n">100<span className="accent">%</span></div><div className="hstat-l">Mécanique générale</div></div>
+            <div className="hstat"><div className="hstat-n">St-Bruno</div><div className="hstat-l">Montarville, QC</div></div>
           </div>
         </div>
-        <div className="hero-scroll-indicator"><div className="scroll-line" /></div>
       </header>
 
-      {/* STATS BAND */}
-      <section className="stats-band">
-        <div className="stats-inner">
-          <div className="stat-item">
-            <span className="stat-number">7<span className="stat-plus">+</span></span>
-            <span className="stat-label">Services spécialisés</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-number">100<span className="stat-plus">%</span></span>
-            <span className="stat-label">Mécanique générale</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-number">6<span className="stat-plus">j</span></span>
-            <span className="stat-label">Ouvert / semaine</span>
-          </div>
-          <div className="stat-divider" />
-          <div className="stat-item">
-            <span className="stat-number">St-Bruno</span>
-            <span className="stat-label">Montarville</span>
-          </div>
+      {/* MARQUEE */}
+      <div className="marquee" aria-hidden>
+        <div className="marquee-track">
+          <span>Pneus • Alignement • Freins • Suspension • Silencieux • Vidange • Injection • Mécanique générale • </span>
+          <span>Pneus • Alignement • Freins • Suspension • Silencieux • Vidange • Injection • Mécanique générale • </span>
         </div>
-      </section>
+      </div>
 
       {/* SERVICES */}
-      <section className="services-section" id="services">
-        <div className="section-inner">
-          <div className="section-header">
-            <span className="section-eyebrow">Nos services</span>
-            <h2 className="section-title">
-              Tout pour garder votre véhicule <span className="title-accent">en santé</span>
-            </h2>
+      <section className="services" id="services">
+        <div className="wrap">
+          <div className="sec-head">
+            <div>
+              <span className="kicker" style={{ marginBottom: "1rem" }}>Ce qu'on fait</span>
+              <h2 className="display sec-title">Un atelier complet,<br />sous un même toit</h2>
+            </div>
+            <p className="sec-note">De la pose de pneus à la réparation mécanique : tout est fait sur place, avec soin.</p>
           </div>
-          <div className="services-grid">
-            {/* Card 1 */}
-            <article className="service-card">
-              <div className="service-img-wrap">
-                <ImageWithFade src="/images/service-tires.webp" alt="Pneus et installation" className="service-img" />
-                <div className="service-img-overlay" />
-              </div>
-              <div className="service-body">
-                <div className="service-icon-wrap"><Disc3 size={20} /></div>
-                <h3 className="service-title">Pneus &amp; installation</h3>
-                <p className="service-desc">
-                  Vente, installation et balancement de pneus toutes saisons et d&apos;hiver,
-                  avec entreposage et conseils adaptés à votre véhicule.
-                </p>
-                <ul className="service-list">
-                  <li><Check size={14} /> Vente &amp; pose de pneus</li>
-                  <li><Check size={14} /> Balancement &amp; valves</li>
-                  <li><Check size={14} /> Alignement des roues</li>
-                </ul>
-                <a className="service-link" href="#contact">En savoir plus <ArrowUpRight size={14} /></a>
-              </div>
-            </article>
 
-            {/* Card 2 — featured */}
-            <article className="service-card service-card--featured">
-              <div className="service-img-wrap">
-                <ImageWithFade src="/images/service-brakes.webp" alt="Réparation de freins" className="service-img" />
-                <div className="service-img-overlay" />
-              </div>
-              <div className="service-body">
-                <div className="service-icon-wrap service-icon-wrap--accent"><ShieldCheck size={20} /></div>
-                <h3 className="service-title">Freins &amp; sécurité</h3>
-                <p className="service-desc">
-                  Inspection, réparation et remplacement complet du système de freinage
-                  pour rouler en toute confiance, en toutes saisons.
-                </p>
-                <ul className="service-list">
-                  <li><Check size={14} /> Réparation des freins</li>
-                  <li><Check size={14} /> Suspension &amp; direction</li>
-                  <li><Check size={14} /> Silencieux &amp; échappement</li>
-                </ul>
-                <a className="service-link service-link--accent" href="#contact">En savoir plus <ArrowUpRight size={14} /></a>
-              </div>
-            </article>
-
-            {/* Card 3 */}
-            <article className="service-card">
-              <div className="service-img-wrap">
-                <ImageWithFade src="/images/service-alignment.webp" alt="Entretien et mécanique générale" className="service-img" />
-                <div className="service-img-overlay" />
-              </div>
-              <div className="service-body">
-                <div className="service-icon-wrap"><Cog size={20} /></div>
-                <h3 className="service-title">Entretien &amp; mécanique</h3>
-                <p className="service-desc">
-                  Vidanges d&apos;huile, service d&apos;injection et diagnostic complet :
-                  un entretien préventif qui prolonge la vie de votre auto.
-                </p>
-                <ul className="service-list">
-                  <li><Check size={14} /> Vidange d&apos;huile</li>
-                  <li><Check size={14} /> Service d&apos;injection</li>
-                  <li><Check size={14} /> Mécanique générale</li>
-                </ul>
-                <a className="service-link" href="#contact">En savoir plus <ArrowUpRight size={14} /></a>
-              </div>
-            </article>
-          </div>
+          {SERVICES.map((s) => (
+            <a className="srow" href="#rdv" key={s.n}>
+              <span className="srow-num">{s.n}</span>
+              <span className="srow-title">{s.t}</span>
+              <span className="srow-desc">{s.d}</span>
+              <span className="srow-img"><img src={U(s.img, 400)} alt="" loading="lazy" /></span>
+              <span className="srow-arrow"><ArrowUpRight size={20} /></span>
+            </a>
+          ))}
         </div>
       </section>
 
-      {/* WHY US / ABOUT */}
-      <section className="why-section" id="apropos">
-        <div className="why-inner">
+      {/* WHY US */}
+      <section className="why" id="apropos">
+        <div className="wrap why-grid">
           <div className="why-visual">
-            <div style={{ position: "relative", height: 560 }}>
-              <ImageWithFade src="/images/editorial.webp" alt="Mécanicien au travail" className="why-img" />
-            </div>
-            <div className="why-badge-float">
-              <span className="why-badge-num">St-Bruno</span>
-              <span className="why-badge-text">Votre garage<br />de quartier</span>
-            </div>
+            <div className="why-img-main"><img src={U(IMG.whyMain)} alt="Mécanicien au travail" loading="lazy" /></div>
+            <div className="why-img-sub"><img src={U(IMG.whySub, 500)} alt="Détail d'atelier" loading="lazy" /></div>
           </div>
-          <div className="why-content">
-            <span className="section-eyebrow">À propos</span>
-            <h2 className="section-title why-title">
-              Un service <span className="title-accent">honnête</span>, sans surprise
-            </h2>
-            <p className="why-desc">
-              Chez Pneus et Services Grisé Inc., on croit à une mécanique simple et
-              transparente. De la vente de pneus à la réparation complète, chaque
-              intervention est faite avec soin par une équipe qui connaît la valeur
-              d&apos;un travail bien fait — et d&apos;un client qui revient.
+          <div>
+            <span className="kicker">L'atelier</span>
+            <h2 className="display why-title">Un service honnête,<br />sans surprise</h2>
+            <p className="why-text">
+              Chez Pneus et Services Grisé Inc., on croit à une mécanique simple et transparente.
+              On cible le vrai problème avant de toucher à quoi que ce soit, et chaque intervention
+              est faite avec le soin qu'on donnerait à notre propre véhicule.
             </p>
-            <div className="why-pillars">
-              <div className="pillar">
-                <div className="pillar-icon"><Gauge size={18} /></div>
-                <div>
-                  <div className="pillar-title">Diagnostic précis</div>
-                  <div className="pillar-desc">On cible le vrai problème avant de toucher à quoi que ce soit.</div>
-                </div>
-              </div>
-              <div className="pillar">
-                <div className="pillar-icon"><Wrench size={18} /></div>
-                <div>
-                  <div className="pillar-title">Mécanique complète</div>
-                  <div className="pillar-desc">Pneus, freins, suspension, échappement et entretien sous un même toit.</div>
-                </div>
-              </div>
-              <div className="pillar">
-                <div className="pillar-icon"><Car size={18} /></div>
-                <div>
-                  <div className="pillar-title">Service de proximité</div>
-                  <div className="pillar-desc">Un garage de quartier au service des automobilistes de St-Bruno.</div>
-                </div>
-              </div>
+            <div className="why-checks">
+              <div className="why-check"><Check size={17} /> Diagnostic précis</div>
+              <div className="why-check"><Check size={17} /> Pneus &amp; alignement</div>
+              <div className="why-check"><Check size={17} /> Freins &amp; suspension</div>
+              <div className="why-check"><Check size={17} /> Vidange &amp; injection</div>
+              <div className="why-check"><Check size={17} /> Silencieux</div>
+              <div className="why-check"><Check size={17} /> Conseils sans pression</div>
+            </div>
+            <div className="why-counters">
+              <div><div className="counter-n">6<span className="accent">j</span></div><div className="counter-l">Ouvert / semaine</div></div>
+              <div><div className="counter-n">7<span className="accent">+</span></div><div className="counter-l">Services</div></div>
+              <div><div className="counter-n">St-B</div><div className="counter-l">Montarville</div></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="cta-section" id="contact">
-        <div className="cta-bg">
-          <ImageWithFade src="/images/cta.webp" alt="Véhicule au garage" className="cta-img" />
-          <div className="cta-overlay" />
-        </div>
-        <div className="cta-content">
-          <span className="cta-offer-badge"><Clock size={14} /> <strong>Ouvert 6 jours</strong> — Lun au sam</span>
-          <h2 className="cta-title">
-            Besoin d&apos;un rendez-vous? <span className="cta-title-accent">Appelez-nous</span>
-          </h2>
+      {/* APPOINTMENT CTA */}
+      <section className="cta" id="rdv">
+        <div className="cta-bg"><img src={U(IMG.cta)} alt="Voiture au garage" loading="lazy" /></div>
+        <div className="wrap cta-in">
+          <span className="kicker">Prêt à rouler en confiance ?</span>
+          <h2 className="display cta-title">Réservez votre<br />passage à l'atelier</h2>
           <p className="cta-sub">
-            Pneus, freins, alignement ou simple vidange : passez nous voir au {ADDRESS.split(",")[0]} ou
-            réservez votre plage horaire par téléphone. On s&apos;occupe du reste.
+            Pneus, freins, alignement ou simple vidange : passez nous voir au {ADDRESS.split(",")[0]}
+            {" "}ou réservez votre plage horaire par téléphone. On s'occupe du reste.
           </p>
           <div className="cta-actions">
-            <a className="btn-cta-main" href={`tel:${PHONE_TEL}`}>
-              <Phone size={17} /> {PHONE_DISPLAY}
-            </a>
-            <a className="btn-cta-phone" href={`https://maps.google.com/?q=${encodeURIComponent(ADDRESS)}`} target="_blank" rel="noreferrer">
-              <MapPin size={16} /> Voir l&apos;itinéraire
+            <a className="cta-phone" href={`tel:${PHONE_TEL}`}><Phone size={26} /> {PHONE_DISPLAY}</a>
+            <a className="btn btn-red" href={`https://maps.google.com/?q=${encodeURIComponent(ADDRESS)}`} target="_blank" rel="noreferrer">
+              <MapPin size={16} /> Voir l'itinéraire
             </a>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="footer">
-        <div className="footer-inner">
-          <div>
-            <div className="footer-logo">
-              <span className="logo-main">Pneus &amp; Services</span>
-              <span className="logo-accent">Grisé</span>
+      <footer className="foot" id="contact">
+        <div className="wrap">
+          <div className="foot-grid">
+            <div>
+              <div className="logo">Grisé<small>Pneus &amp; Services</small></div>
+              <p className="foot-tag">Garage de mécanique générale au service des automobilistes de Saint-Bruno-de-Montarville.</p>
+              <a className="cta-phone" href={`tel:${PHONE_TEL}`} style={{ fontSize: "1.3rem" }}><Phone size={20} /> {PHONE_DISPLAY}</a>
             </div>
-            <p className="footer-tagline">
-              Garage de mécanique générale au service des automobilistes de
-              Saint-Bruno-de-Montarville.
-            </p>
-            <div className="footer-contact">
-              <a className="footer-phone" href={`tel:${PHONE_TEL}`}><Phone size={17} /> {PHONE_DISPLAY}</a>
-              <span className="footer-location"><MapPin size={15} /> {ADDRESS}</span>
+            <div>
+              <h4 className="foot-h">Services</h4>
+              <ul className="foot-list">
+                {SERVICES.slice(0, 5).map((s) => <li key={s.n}><a href="#services">{s.t}</a></li>)}
+              </ul>
+            </div>
+            <div>
+              <h4 className="foot-h">Navigation</h4>
+              <ul className="foot-list">
+                <li><a href="#top">Accueil</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#apropos">Atelier</a></li>
+                <li><a href="#rdv">Rendez-vous</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="foot-h">Coordonnées</h4>
+              <ul className="foot-list">
+                <li><span><MapPin size={15} /> {ADDRESS}</span></li>
+                <li><span><Clock size={15} /> Lun – Ven : 8h à 17h</span></li>
+                <li><span><Clock size={15} /> Samedi : 8h à 12h</span></li>
+                <li><span><Clock size={15} /> Dimanche : fermé</span></li>
+              </ul>
             </div>
           </div>
-
-          <div>
-            <h4 className="footer-heading">Services</h4>
-            <ul className="footer-links">
-              <li><a href="#services">Pneus &amp; installation</a></li>
-              <li><a href="#services">Alignement des roues</a></li>
-              <li><a href="#services">Freins &amp; suspension</a></li>
-              <li><a href="#services">Silencieux</a></li>
-              <li><a href="#services">Vidange &amp; injection</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="footer-heading">Navigation</h4>
-            <ul className="footer-links">
-              <li><a href="#top">Accueil</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#apropos">À propos</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="footer-heading">Heures</h4>
-            <ul className="footer-links">
-              <li><span className="footer-hours"><Clock size={14} /> Lun – Ven : 8h à 17h</span></li>
-              <li><span className="footer-hours"><Clock size={14} /> Samedi : 8h à 12h</span></li>
-              <li><span className="footer-hours"><Clock size={14} /> Dimanche : fermé</span></li>
-            </ul>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Pneus et Services Grisé Inc. Tous droits réservés.</span>
-          <div className="footer-legal">
-            <a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a>
-            <a href="#top">Retour en haut</a>
+          <div className="foot-bottom">
+            <span>© {new Date().getFullYear()} Pneus et Services Grisé Inc. Tous droits réservés.</span>
+            <span>Saint-Bruno-de-Montarville, QC</span>
           </div>
         </div>
       </footer>
