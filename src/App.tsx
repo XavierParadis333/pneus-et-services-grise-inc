@@ -73,7 +73,7 @@ export default function App() {
           width: 500,
           height: 500,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(201,169,98,0.18), transparent 60%)",
+          background: "radial-gradient(circle, rgba(230,57,70,0.18), transparent 60%)",
           filter: "blur(100px)",
           pointerEvents: "none",
           zIndex: 1,
