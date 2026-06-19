@@ -30,7 +30,7 @@ export default function App() {
       <nav className="nav">
         <div className="wrap nav-in">
           <a href="#top" className="logo">
-            Grisé<small>Pneus &amp; Services</small>
+            Pneu Grisé<small>Mécanique générale</small>
           </a>
           <ul className="nav-links">
             <li><a href="#services">Services</a></li>
@@ -66,7 +66,7 @@ export default function App() {
             <div className="hstat"><div className="hstat-n">6<span className="accent">/7</span></div><div className="hstat-l">Jours ouverts</div></div>
             <div className="hstat"><div className="hstat-n">7<span className="accent">+</span></div><div className="hstat-l">Services spécialisés</div></div>
             <div className="hstat"><div className="hstat-n">100<span className="accent">%</span></div><div className="hstat-l">Mécanique générale</div></div>
-            <div className="hstat"><div className="hstat-n">St-Bruno</div><div className="hstat-l">Montarville, QC</div></div>
+            <div className="hstat"><div className="hstat-n">8–17<span className="accent">h</span></div><div className="hstat-l">Du lundi au vendredi</div></div>
           </div>
         </div>
       </header>
@@ -113,7 +113,7 @@ export default function App() {
             <span className="kicker">L'atelier</span>
             <h2 className="display why-title">Un service honnête,<br />sans surprise</h2>
             <p className="why-text">
-              Chez Pneus et Services Grisé Inc., on croit à une mécanique simple et transparente.
+              Chez Pneu Grisé, on croit à une mécanique simple et transparente.
               On cible le vrai problème avant de toucher à quoi que ce soit, et chaque intervention
               est faite avec le soin qu'on donnerait à notre propre véhicule.
             </p>
@@ -128,7 +128,7 @@ export default function App() {
             <div className="why-counters">
               <div><div className="counter-n">6<span className="accent">j</span></div><div className="counter-l">Ouvert / semaine</div></div>
               <div><div className="counter-n">7<span className="accent">+</span></div><div className="counter-l">Services</div></div>
-              <div><div className="counter-n">St-B</div><div className="counter-l">Montarville</div></div>
+              <div><div className="counter-n">Local</div><div className="counter-l">Saint-Bruno-de-Montarville</div></div>
             </div>
           </div>
         </div>
@@ -158,7 +158,7 @@ export default function App() {
         <div className="wrap">
           <div className="foot-grid">
             <div>
-              <div className="logo">Grisé<small>Pneus &amp; Services</small></div>
+              <div className="logo">Pneu Grisé<small>Mécanique générale</small></div>
               <p className="foot-tag">Garage de mécanique générale au service des automobilistes de Saint-Bruno-de-Montarville.</p>
               <a className="cta-phone" href={`tel:${PHONE_TEL}`} style={{ fontSize: "1.3rem" }}><Phone size={20} /> {PHONE_DISPLAY}</a>
             </div>
@@ -188,7 +188,7 @@ export default function App() {
             </div>
           </div>
           <div className="foot-bottom">
-            <span>© {new Date().getFullYear()} Pneus et Services Grisé Inc. Tous droits réservés.</span>
+            <span>© {new Date().getFullYear()} Pneu Grisé — Mécanique générale. Tous droits réservés.</span>
             <span>Saint-Bruno-de-Montarville, QC</span>
           </div>
         </div>
